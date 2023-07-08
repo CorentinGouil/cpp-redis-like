@@ -7,6 +7,7 @@
 #include <vector>
 #include "RespInterpreter.h"
 #include "commands/PingCommand.h"
+#include "commands/UnknownCommand.h"
 
 std::unique_ptr<Command> RespInterpreter::getCommandHandler() {
     std::cout << command << std::endl;
@@ -31,8 +32,12 @@ std::unique_ptr<Command> RespInterpreter::getCommandHandler() {
             int argLength = std::stoi(&splitCommand[3][1]);
             return std::make_unique<PingCommand>(splitCommand[4].substr(0, argLength));
         }
+
+        auto commandLength = splitCommand[2].length();
+
+        return std::make_unique<UnknownCommand>(splitCommand[2].substr(0, commandLength - 1));
     }
 
 
-    return std::make_unique<PingCommand>();
+    return std::make_unique<UnknownCommand>(splitCommand[0]);
 }
