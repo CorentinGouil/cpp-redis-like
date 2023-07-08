@@ -9,6 +9,7 @@
 #include "commands/PingCommand.h"
 
 std::unique_ptr<Command> RespInterpreter::getCommandHandler() {
+    std::cout << command << std::endl;
     std::stringstream commandStream(command);
 
     std::vector<std::string> splitCommand;
@@ -18,11 +19,20 @@ std::unique_ptr<Command> RespInterpreter::getCommandHandler() {
     while (std::getline(commandStream, line)) {
         splitCommand.push_back(line);
     }
-    
-    if (splitCommand[2] == "ping\r") {
-        std::cout << "ping!" << std::endl;
-        return std::make_unique<PingCommand>();
+
+    // Array
+    if (splitCommand[0][0] == '*') {
+        int length = std::stoi(&splitCommand[0][1]);
+
+        if (splitCommand[2] == "ping\r") {
+            if (length == 1) {
+                return std::make_unique<PingCommand>();
+            }
+            int argLength = std::stoi(&splitCommand[3][1]);
+            return std::make_unique<PingCommand>(splitCommand[4].substr(0, argLength));
+        }
     }
+
 
     return std::make_unique<PingCommand>();
 }
