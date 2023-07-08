@@ -1,6 +1,8 @@
-#include <iostream>
+#include "RedisServer.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    RedisServer redisServer(6379, 2);
+    redisServer.spawnServer();
+
     return 0;
 }
