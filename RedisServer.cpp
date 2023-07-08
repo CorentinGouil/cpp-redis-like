@@ -112,10 +112,6 @@ void RedisServer::spawnServer() {
         return;
     }
 
-    struct timeval timeout{};
-    timeout.tv_sec = 0;
-    timeout.tv_usec = 500;
-
     int sock_err = bind(sock, (SOCKADDR *) &sin, recsize);
     if (sock_err == SOCKET_ERROR) {
         perror("bind");
