@@ -8,8 +8,6 @@
 
 #include "Command.h"
 
-#include <utility>
-
 class PingCommand : public Command {
     std::string arg;
 public:

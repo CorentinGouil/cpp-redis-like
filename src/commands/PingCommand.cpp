@@ -10,14 +10,8 @@ std::string PingCommand::getResponse() {
 
     std::stringstream response;
 
-    response << "*";
-    response << 1;
-    response << "\r\n";
-
-    response << "$";
-    response << arg.length();
-    response << "\r\n";
-
+    response << "*" << 1 << "\r\n";
+    response << "$" << arg.length() << "\r\n";
     response << arg << "\r\n";
 
     return response.str();
