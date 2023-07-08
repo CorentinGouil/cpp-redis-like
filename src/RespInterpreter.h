@@ -6,8 +6,20 @@
 #define CPP_REDIS_LIKE_RESPINTERPRETER_H
 
 
-class RespInterpreter {
+#include <string>
+#include <utility>
+#include <memory>
+#include "commands/Command.h"
+#include "commands/PingCommand.h"
 
+class RespInterpreter {
+private:
+    std::string command;
+
+public:
+    explicit RespInterpreter(std::string command) : command(std::move(command)) {}
+
+    std::unique_ptr<Command> getCommandHandler();
 };
 
 

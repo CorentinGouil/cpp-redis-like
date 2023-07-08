@@ -3,6 +3,7 @@
 //
 
 #include "RedisServer.h"
+#include "RespInterpreter.h"
 
 #ifdef _WIN32
 
@@ -90,10 +91,11 @@ void RedisServer::connectionHandler() {
             if (read < 0) continue;
             if (read == 0) break;
 
-            std::string command(buffer);
-            std::cout << command << std::endl;
+            RespInterpreter respInterpreter((std::string(buffer)));
+            std::unique_ptr<Command> command = respInterpreter.getCommandHandler();
+            std::string response = command->getResponse();
 
-            send(csock, hello, strlen(hello), 0);
+            send(csock, response.c_str(), response.length(), 0);
         }
 
         closesocket(csock);
