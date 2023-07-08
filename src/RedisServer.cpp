@@ -90,7 +90,8 @@ void RedisServer::connectionHandler() {
             if (read < 0) continue;
             if (read == 0) break;
 
-//            printf("%s\n", buffer);
+            std::string command(buffer);
+            std::cout << command << std::endl;
 
             send(csock, hello, strlen(hello), 0);
         }
