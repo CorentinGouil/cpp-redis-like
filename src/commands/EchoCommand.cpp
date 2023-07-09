@@ -7,7 +7,7 @@
 #include "../resp_type/RespError.h"
 #include "../resp_type/RespBulkString.h"
 
-std::unique_ptr<RespType> EchoCommand::getRespResponse() {
+std::unique_ptr<RespType> EchoCommand::execute() {
     if (args.size() != 1) {
         return std::make_unique<RespError>("ERR wrong number of arguments for command");
     }

@@ -13,7 +13,7 @@
 
 class PingCommand : public Command {
 public:
-    std::unique_ptr<RespType> getRespResponse() override;
+    std::unique_ptr<RespType> execute() override;
 
     explicit PingCommand(std::vector<std::string> args) : Command(std::move(args)) {}
 

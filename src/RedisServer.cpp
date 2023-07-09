@@ -93,7 +93,7 @@ void RedisServer::connectionHandler() {
 
             RespInterpreter respInterpreter((std::string(buffer)));
             std::unique_ptr<Command> command = respInterpreter.getCommandHandler();
-            std::unique_ptr<RespType> restResponse = command->getRespResponse();
+            std::unique_ptr<RespType> restResponse = command->execute();
 
             std::string response = restResponse->buildResponse();
 

@@ -10,7 +10,7 @@
 #include "../resp_type/RespArray.h"
 #include "../resp_type/RespBulkString.h"
 
-std::unique_ptr<RespType> PingCommand::getRespResponse() {
+std::unique_ptr<RespType> PingCommand::execute() {
     if (args.empty()) return std::make_unique<RespSimpleString>("PONG");
 
     if (args.size() > 1) {

@@ -18,7 +18,7 @@ protected:
 public:
     explicit Command(std::vector<std::string> args) : args(std::move(args)) {}
 
-    virtual std::unique_ptr<RespType> getRespResponse() = 0;
+    virtual std::unique_ptr<RespType> execute() = 0;
 
     virtual ~Command() = default;
 };
