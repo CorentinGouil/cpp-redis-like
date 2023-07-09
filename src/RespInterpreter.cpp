@@ -9,6 +9,7 @@
 #include "commands/PingCommand.h"
 #include "commands/UnknownCommand.h"
 #include "commands/EchoCommand.h"
+#include "commands/SetCommand.h"
 
 RespInterpreter::RespCommand RespInterpreter::getRespCommand() {
     RespInterpreter::RespCommand res;
@@ -52,6 +53,9 @@ std::unique_ptr<Command> RespInterpreter::getCommandHandler() {
     }
     if (respCommand.command == "ECHO") {
         return std::make_unique<EchoCommand>(respCommand.args);
+    }
+    if (respCommand.command == "SET") {
+        return std::make_unique<SetCommand>(respCommand.args);
     }
 
     return std::make_unique<UnknownCommand>(respCommand.command);
