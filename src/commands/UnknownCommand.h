@@ -7,12 +7,14 @@
 
 
 #include "Command.h"
+#include "../resp_type/RespType.h"
 
 #include <utility>
+#include <memory>
 
 class UnknownCommand : public Command {
 public:
-    std::string getResponse() override;
+    std::unique_ptr<RespType> getRespResponse() override;
 
     explicit UnknownCommand(std::vector<std::string> args) : Command(std::move(args)) {}
 

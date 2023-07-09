@@ -93,9 +93,11 @@ void RedisServer::connectionHandler() {
 
             RespInterpreter respInterpreter((std::string(buffer)));
             std::unique_ptr<Command> command = respInterpreter.getCommandHandler();
-            std::string response = command->getResponse();
+            std::unique_ptr<RespType> restResponse = command->getRespResponse();
 
-            send(csock, response.c_str(), response.length(), 0);
+            std::string response = restResponse->buildResponse();
+
+            send(csock, response.c_str(), (int) response.length(), 0);
         }
 
         closesocket(csock);

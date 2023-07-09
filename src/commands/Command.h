@@ -9,6 +9,8 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <memory>
+#include "../resp_type/RespType.h"
 
 class Command {
 protected:
@@ -16,7 +18,7 @@ protected:
 public:
     explicit Command(std::vector<std::string> args) : args(std::move(args)) {}
 
-    virtual std::string getResponse() = 0;
+    virtual std::unique_ptr<RespType> getRespResponse() = 0;
 
     virtual ~Command() = default;
 };

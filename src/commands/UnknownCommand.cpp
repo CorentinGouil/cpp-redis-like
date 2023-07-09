@@ -6,6 +6,6 @@
 #include "UnknownCommand.h"
 #include "../resp_type/RespError.h"
 
-std::string UnknownCommand::getResponse() {
-    return RespError("unknown command '" + args[0]).buildResponse();
+std::unique_ptr<RespType> UnknownCommand::getRespResponse() {
+    return std::make_unique<RespError>("unknown command '" + args[0]);
 }

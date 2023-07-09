@@ -7,12 +7,13 @@
 
 
 #include "Command.h"
+#include "../resp_type/RespType.h"
 
 #include <utility>
 
 class PingCommand : public Command {
 public:
-    std::string getResponse() override;
+    std::unique_ptr<RespType> getRespResponse() override;
 
     explicit PingCommand(std::vector<std::string> args) : Command(std::move(args)) {}
 
