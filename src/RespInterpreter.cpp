@@ -9,35 +9,48 @@
 #include "commands/PingCommand.h"
 #include "commands/UnknownCommand.h"
 
-std::unique_ptr<Command> RespInterpreter::getCommandHandler() {
-    std::cout << command << std::endl;
+RespInterpreter::RespCommand RespInterpreter::getRespCommand() {
+    RespInterpreter::RespCommand res;
+
     std::stringstream commandStream(command);
 
     std::vector<std::string> splitCommand;
 
     std::string line;
-    int i = 0;
     while (std::getline(commandStream, line)) {
         splitCommand.push_back(line);
     }
 
     // Array
     if (splitCommand[0][0] == '*') {
-        int length = std::stoi(&splitCommand[0][1]);
+        const int length = std::stoi(&splitCommand[0][1]);
 
-        if (splitCommand[2] == "ping\r") {
-            if (length == 1) {
-                return std::make_unique<PingCommand>();
-            }
-            int argLength = std::stoi(&splitCommand[3][1]);
-            return std::make_unique<PingCommand>(splitCommand[4].substr(0, argLength));
+        const int commandLength = std::stoi(&splitCommand[1][1]);
+        res.command = splitCommand[2].substr(0, commandLength);
+        for (auto &c: res.command) c = toupper(c);
+
+        // Bind args
+        for (int i = 1; i < length; i++) {
+            const int argLengthIndex = i * 2 + 1;
+            const int argValueIndex = argLengthIndex + 1;
+
+            const int elemLength = std::stoi(&splitCommand[argLengthIndex][1]);
+            const std::string elemValue = splitCommand[argValueIndex].substr(0, elemLength);
+            res.args.push_back(elemValue);
         }
-
-        auto commandLength = splitCommand[2].length();
-
-        return std::make_unique<UnknownCommand>(splitCommand[2].substr(0, commandLength - 1));
     }
 
-
-    return std::make_unique<UnknownCommand>(splitCommand[0]);
+    return res;
 }
+
+std::unique_ptr<Command> RespInterpreter::getCommandHandler() {
+    RespCommand respCommand = getRespCommand();
+
+    if (respCommand.command == "PING") {
+        return std::make_unique<PingCommand>(respCommand.args);
+    }
+
+    return std::make_unique<UnknownCommand>(respCommand.args);
+}
+
+

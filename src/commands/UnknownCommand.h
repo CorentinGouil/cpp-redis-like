@@ -9,11 +9,10 @@
 #include "Command.h"
 
 class UnknownCommand : public Command {
-    std::string arg;
 public:
     std::string getResponse() override;
 
-    explicit UnknownCommand(std::string arg) : arg(std::move(arg)) {}
+    explicit UnknownCommand(std::vector<std::string> args) : Command(std::move(args)) {}
 
     ~UnknownCommand() override = default;
 };

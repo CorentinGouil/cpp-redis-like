@@ -12,9 +12,17 @@
 #include "commands/Command.h"
 #include "commands/PingCommand.h"
 
+
 class RespInterpreter {
 private:
+    struct RespCommand {
+        std::string command;
+        std::vector<std::string> args;
+    };
+
     std::string command;
+
+    RespCommand getRespCommand();
 
 public:
     explicit RespInterpreter(std::string command) : command(std::move(command)) {}

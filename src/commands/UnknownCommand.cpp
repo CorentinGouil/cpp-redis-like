@@ -8,7 +8,7 @@
 std::string UnknownCommand::getResponse() {
     std::stringstream response;
 
-    response << "-unknown command '" << arg << "'\r\n";
+    response << "-unknown command '" << args[0] << "'\r\n";
 
     return response.str();
 }

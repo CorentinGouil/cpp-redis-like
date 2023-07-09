@@ -8,14 +8,13 @@
 
 #include "Command.h"
 
+#include <utility>
+
 class PingCommand : public Command {
-    std::string arg;
 public:
     std::string getResponse() override;
 
-    PingCommand() = default;
-
-    explicit PingCommand(std::string arg) : arg(std::move(arg)) {}
+    explicit PingCommand(std::vector<std::string> args) : Command(std::move(args)) {}
 
     ~PingCommand() override = default;
 };
