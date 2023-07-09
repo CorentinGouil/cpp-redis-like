@@ -50,7 +50,7 @@ std::unique_ptr<Command> RespInterpreter::getCommandHandler() {
         return std::make_unique<PingCommand>(respCommand.args);
     }
 
-    return std::make_unique<UnknownCommand>(respCommand.args);
+    return std::make_unique<UnknownCommand>(respCommand.command);
 }
 
 
