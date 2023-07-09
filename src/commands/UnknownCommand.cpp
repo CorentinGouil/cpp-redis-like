@@ -4,11 +4,8 @@
 
 #include <sstream>
 #include "UnknownCommand.h"
+#include "../resp_type/RespError.h"
 
 std::string UnknownCommand::getResponse() {
-    std::stringstream response;
-
-    response << "-unknown command '" << args[0] << "'\r\n";
-
-    return response.str();
+    return RespError("unknown command '" + args[0]).buildResponse();
 }

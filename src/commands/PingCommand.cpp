@@ -3,23 +3,23 @@
 //
 
 #include <sstream>
+#include <memory>
 #include "PingCommand.h"
+#include "../resp_type/RespSimpleString.h"
+#include "../resp_type/RespError.h"
+#include "../resp_type/RespArray.h"
+#include "../resp_type/RespBulkString.h"
 
 std::string PingCommand::getResponse() {
-    if (args.empty()) return "+PONG\r\n";
-
-    std::stringstream response;
+    if (args.empty()) return RespSimpleString("PONG").buildResponse();
 
     if (args.size() > 1) {
-        response << "-" << "wrong number of arguments (given "
-                 << args.size() << " expected 0..1)\r\n";
-        
-        return response.str();
+        return RespError(
+                "wrong number of arguments (given " + std::to_string(args.size()) + " expected 0..1)"
+        ).buildResponse();
     }
 
-    response << "*" << 1 << "\r\n"
-             << "$" << args[0].length() << "\r\n"
-             << args[0] << "\r\n";
-
-    return response.str();
+    RespArray response;
+    response.pushBack(std::make_shared<RespBulkString>(args[0]));
+    return response.buildResponse();
 }
