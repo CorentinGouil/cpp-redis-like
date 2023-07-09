@@ -4,19 +4,13 @@
 
 #include <sstream>
 #include "EchoCommand.h"
+#include "../resp_type/RespError.h"
+#include "../resp_type/RespBulkString.h"
 
 std::string EchoCommand::getResponse() {
-    std::stringstream response;
-
     if (args.size() != 1) {
-        response << "-ERR wrong number of arguments for command\r\n";
-
-        return response.str();
+        return RespError("ERR wrong number of arguments for command").buildResponse();
     }
 
-    response << "$" << args[0].length() << "\r\n"
-             << args[0] << "\r\n";
-
-
-    return response.str();
+    return RespBulkString(args[0]).buildResponse();
 }
