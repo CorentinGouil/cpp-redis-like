@@ -17,3 +17,7 @@ bool DataStore::setValue(const std::string &key, std::string value) {
     data[key] = std::move(value);
     return true;
 }
+
+std::string DataStore::getValue(const std::string &key) {
+    return data[key];
+}

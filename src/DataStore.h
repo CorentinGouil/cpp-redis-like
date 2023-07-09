@@ -23,6 +23,8 @@ public:
     void operator=(const DataStore &) = delete;
 
     bool setValue(const std::string &key, std::string value);
+
+    std::string getValue(const std::string &key);
 };
 
 

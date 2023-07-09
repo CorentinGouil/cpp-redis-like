@@ -10,6 +10,7 @@
 #include "commands/UnknownCommand.h"
 #include "commands/EchoCommand.h"
 #include "commands/SetCommand.h"
+#include "commands/GetCommand.h"
 
 RespInterpreter::RespCommand RespInterpreter::getRespCommand() {
     RespInterpreter::RespCommand res;
@@ -56,6 +57,9 @@ std::unique_ptr<Command> RespInterpreter::getCommandHandler() {
     }
     if (respCommand.command == "SET") {
         return std::make_unique<SetCommand>(respCommand.args);
+    }
+    if (respCommand.command == "GET") {
+        return std::make_unique<GetCommand>(respCommand.args);
     }
 
     return std::make_unique<UnknownCommand>(respCommand.command);
